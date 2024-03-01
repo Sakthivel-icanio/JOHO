@@ -1,0 +1,2700 @@
+/*
+ * Author       : ankit_jogohealth
+ * Generated on : 01-Mar-2024 16:51:49
+ * Version      : 1.0
+ */
+ application "Learning"
+ {
+ 	date format = "dd-MMM-yyyy"
+ 	time zone = "Asia/Kolkata"
+ 	time format = "24-hr"
+ 	section Schedule_Appointment
+	{
+		displayname= "Schedule Appointment"
+		icon = "location-appointment"
+		form New_Appointment
+		{
+			displayname = "New Appointment"
+			success message = "Appointment Booked Successfully! We will send the confirmation status in mail."
+			field alignment = left
+			feature property = 320
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			must have Name
+			(
+    			type = name
+     			prefix1
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name1
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name1
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+     			) 
+     			suffix1
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Mobile_Number
+			(
+    			type = phonenumber
+				displayname = "Mobile Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Email_Id
+			(
+    			type = email
+				displayname = "Email Id"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Age
+			(
+				type = number
+				maxchar = 3
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Address
+			(
+    			type = address
+     			capture_coordinates = true
+     			adjust_using_map = false
+     			address_line_11
+     			(
+	     			  type = address_line_1
+	     			  displayname = "Address Line 1"
+     			) 
+     			address_line_21
+     			(
+	     			  type = address_line_2
+	     			  displayname = "Address Line 2"
+     			) 
+     			district_city1
+     			(
+	     			  type = district_city
+	     			  displayname = "City / District"
+     			) 
+     			state_province1
+     			(
+	     			  type = state_province
+	     			  displayname = "State Province"
+     			) 
+     			postal_Code1
+     			(
+	     			  type = postal_Code
+	     			  displayname = "Postal Code"
+     			) 
+     			country1
+     			(
+	     			  type = country
+	     			  displayname = "Country"
+     			) 
+     			latitude1
+     			(
+	     			  type = latitude
+	     			  displayname = "latitude"
+	     			 visibility = false
+     			) 
+     			longitude1
+     			(
+	     			  type = longitude
+	     			  displayname = "longitude"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Appointment_Date_Time
+			(
+    			type = datetime
+				displayname = "Appointment Date-Time"
+				timedisplayoptions = "hh:mm:ss"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Alternative_Date_Time
+			(
+    			type = datetime
+				displayname = "Alternative Date-Time"
+				timedisplayoptions = "hh:mm:ss"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have First_Time_Visit
+			(
+				type = radiobuttons
+				displayname = "First Time Visit"
+				values = {"Yes","No"}
+				initial value = "Yes"
+				layout = 2
+	 			row = 1
+	 			column = 1   
+				width = 300px
+			)
+			must have Preferred
+			(
+				type = radiobuttons
+				displayname = "Preferred method of contact"
+				values = {"Call","Email","Either"}
+				initial value = "Call"
+	 			row = 1
+	 			column = 1   
+				width = 300px
+			)
+			Comments_if_any
+			(
+    			type = textarea
+				displayname = "Comments (if any)"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Status
+			(
+				type = picklist
+				values = {"Pending","Confirmed","Cancelled"}
+				initial value = "Pending"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Single_Line
+			(
+    			type = text
+				displayname = "Single Line"
+    			description
+    			[
+    				type = tooltip
+    			 	message = "this is to test"
+    			]
+	 			row = 1
+	 			column = 1   
+				width = medium
+				isephi = true
+			)
+	
+			customize
+			(
+				icon = "users-2-child"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Book Now"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		timeline Todays_Appointments
+		{
+			displayName = "Todays Appointments"
+			show all rows from New_Appointment  [Status == "Confirmed"]  
+			(
+				Name 
+	 			(
+	      			displayformat = [first_name1+""+prefix1+""+last_name1+""+suffix1]
+	 			)
+				Address 
+	 			(
+	      			displayformat = [address_line_11+""+address_line_21+""+district_city1+""+state_province1+""+postal_Code1+""+country1]
+	 			)
+				Alternative_Date_Time as "Alternative Date-Time"
+				First_Time_Visit as "First Time Visit"
+				Preferred as "Preferred method of contact"
+				Comments_if_any as "Comments"
+				Status
+				Age
+				Appointment_Date_Time as "Appointment Date-Time"
+				Mobile_Number as "Mobile Number"
+				Email_Id as "Email Id"
+			)
+			filters
+			(
+				First_Time_Visit
+			)
+			options
+			(
+				display type = week
+				week start day = sunday
+				display field = Name
+				start date = Appointment_Date_Time
+				default date 
+				(
+	    			day   = Today
+	    			month = Currentmonth
+	    			year  = Currentyear
+				)
+				icon = "ui-1-calendar-grid-61"
+			)
+			quickview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = 1
+		     			title = "Overview"
+						fields
+						(
+							Name
+							Email_Id as "Email Id"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Add 
+    		 			Print 
+    		 			Import 
+    		 			Export 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Print   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						Print   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 2
+					datablock1
+					(
+						layout type = -2
+		     			title = "Overview"
+						fields
+						(
+							Name
+							Mobile_Number as "Mobile Number"
+							Email_Id as "Email Id"
+							Age
+							Address
+							Appointment_Date_Time as "Appointment Date-Time"
+							Alternative_Date_Time as "Alternative Date-Time"
+							First_Time_Visit as "First Time Visit"
+							Preferred as "Preferred method of contact"
+							Comments_if_any as "Comments"
+							Status
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Print 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+		kanban Appointment_Requests
+		{
+			displayName = "Appointment Requests"
+			show all rows from New_Appointment    
+			(
+				Name 
+	 			(
+	      			displayformat = [first_name1+""+prefix1+""+last_name1+""+suffix1]
+	 			)
+				Address 
+	 			(
+	      			displayformat = [address_line_11+""+address_line_21+""+district_city1+""+state_province1+""+postal_Code1+""+country1]
+	 			)
+				Alternative_Date_Time as "Alternative Date-Time"
+				First_Time_Visit as "First Time Visit"
+				Preferred as "Preferred method of contact"
+				Comments_if_any as "Comments"
+				Status
+				Age
+				Appointment_Date_Time as "Appointment Date-Time"
+				Mobile_Number as "Mobile Number"
+				Email_Id as "Email Id"
+			)
+			options
+			(
+	 			display field = Status
+				record count  = enable
+				icon = "location-appointment"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = 2
+					datablock1
+					(
+						layout type = 4
+		     			title = "Overview"
+						fields
+						(
+							Name
+							Appointment_Date_Time as "Appointment Date-Time"
+							Email_Id as "Email Id"
+							Mobile_Number as "Mobile Number"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    		 			Add 
+    		 			Print 
+    		 			Import 
+    		 			Export 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Print   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						Print   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+		     			title = "Overview"
+						fields
+						(
+							Name
+							Mobile_Number as "Mobile Number"
+							Email_Id as "Email Id"
+							Age
+							Address
+							Appointment_Date_Time as "Appointment Date-Time"
+							Alternative_Date_Time as "Alternative Date-Time"
+							First_Time_Visit as "First Time Visit"
+							Preferred as "Preferred method of contact"
+							Comments_if_any as "Comments"
+							Status
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Print 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section Patient_Record
+	{
+		displayname= "Patient Record"
+		icon = "health-notebook"
+		page Patient_Record
+		{
+			displayname = "Patient Record"
+			icon = "health-notebook"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width=\"50%\"\n   \t>\n\t<panel elementName=\"Panel\"\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\tpadding = '5px'\n\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n    action = 'OpenReport'\n\t\tcomponentLinkName = 'Appointment_Requests'\n\t\ttarget = 'same-window'\n\n\tcolor = '#FF4C2F'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\t  \n\t  value = 'thisapp.New_Appointment.Age.sum'\n>\n<\/text>\n\n<\/pc>\n<\/pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#333333'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\t  \n\t  value = 'New employees this month'\n>\n<\/text>\n\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/panel>\n<\/column><column\n   \t\t width=\"50%\"\n   \t>\n\t<panel elementName=\"Panel 1\"\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\tpadding = '5px'\n\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#333333'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\t  \n\t  value = 'New employees this month'\n>\n<\/text>\n\n<\/pc>\n<\/pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginTop = '2px'\n\tcolor = '#FF4C2F'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\t  \n\t  value = 'thisapp.New_Appointment.Age.sum'\n>\n<\/text>\n\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/panel>\n<\/column>\n<\/row>\n<\/layout>\n<\/zml>"
+		}
+	}
+	section Invoice
+	{
+		icon = "shopping-receipt-list-42"
+		form Pay_an_Invoice
+		{
+			displayname = "Pay an Invoice"
+			success message = "New Invoice Added Successfully!"
+			field alignment = left
+			feature property = 320
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			must have Invoice_No
+			(
+    			type = text
+				displayname = "Invoice No"
+	 			row = 1
+	 			column = 1   
+				width = medium
+				isephi = true
+			)
+			must have Date_field
+			(
+    			type = date
+				displayname = "Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Name
+			(
+    			type = name
+     			prefix1
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name1
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name1
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+     			) 
+     			suffix1
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Mobile_Number
+			(
+    			type = phonenumber
+				displayname = "Mobile Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Email
+			(
+    			type = email
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Address
+			(
+    			type = address
+     			capture_coordinates = true
+     			adjust_using_map = false
+     			address_line_11
+     			(
+	     			  type = address_line_1
+	     			  displayname = "Address Line 1"
+     			) 
+     			address_line_21
+     			(
+	     			  type = address_line_2
+	     			  displayname = "Address Line 2"
+	     			 visibility = false
+     			) 
+     			district_city1
+     			(
+	     			  type = district_city
+	     			  displayname = "City / District"
+     			) 
+     			state_province1
+     			(
+	     			  type = state_province
+	     			  displayname = "State Province"
+     			) 
+     			postal_Code1
+     			(
+	     			  type = postal_Code
+	     			  displayname = "Postal Code"
+     			) 
+     			country1
+     			(
+	     			  type = country
+	     			  displayname = "Country"
+     			) 
+     			latitude1
+     			(
+	     			  type = latitude
+	     			  displayname = "latitude"
+	     			 visibility = false
+     			) 
+     			longitude1
+     			(
+	     			  type = longitude
+	     			  displayname = "longitude"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Item_Details
+			(
+				type = grid
+				displayname = "Item Details"
+				must have Item_Name
+				(
+    				type = text
+					displayname = "Item Name"
+					width = medium
+				)
+				must have Quantity
+				(
+					type = number
+					width = medium
+				)
+				must have Unit_Price
+				(
+					displayname = "Unit Price"
+					type = INR
+					width = medium
+				)
+				Amount
+				(
+					type = USD
+					width = medium
+				)
+	 			row = 2
+	 			column = 1   
+				width = 300px
+			)
+			Section1
+			(
+				type = section
+				displayname = "Section"
+	 			row = 3
+	 			column = 0   
+				width = medium
+			)
+			Invoice_Amount
+			(
+				displayname = "Invoice Amount"
+				type = USD
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+	
+			customize
+			(
+				icon = "business-payment"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		print template
+			{
+				Invoice_Template
+				{
+						displayname = "Invoice Template"
+						content = {"layout":"1","pageNumberOption":null,"orientation":"null","isFooterEnabled":false,"mainLayout":[{"elements":[],"id":"1"}],"resize":"a4","templateStyle":"text-align: left; width: 793.7px; background-image: none;","isHeaderEnabled":false}
+				}
+			}
+		}
+		list Invoice_Report
+		{
+			displayName = "Invoice Report"
+			show all rows from Pay_an_Invoice    
+			(
+				Name 
+	 			(
+	      			displayformat = [first_name1+""+prefix1+""+last_name1+""+suffix1]
+	 			)
+				Address 
+	 			(
+	      			displayformat = [address_line_11+""+address_line_21+""+district_city1+""+state_province1+""+postal_Code1+""+country1]
+	      			enable = Link_to_Map,Show_As_Text
+	 			)
+				Email
+				Mobile_Number as "Mobile Number"
+				Invoice_No as "Invoice No"
+				Date_field as "Date"
+				Invoice_Amount as "Invoice Amount"
+				(
+					display = total	
+				)
+			)
+			options
+			(
+				icon = "shopping-receipt-list-42"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+		     			title = "Overview"
+						fields
+						(
+							Invoice_No as "Invoice No"
+							Date_field as "Date"
+							Invoice_Amount as "Invoice Amount"
+							Name
+							Mobile_Number as "Mobile Number"
+							Email
+							Address
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    		 			Add 
+    		 			Print 
+    		 			Import 
+    		 			Export 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Print   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						Print   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 2
+					datablock1
+					(
+						layout type = -2
+		     			title = "Overview"
+						fields
+						(
+							Invoice_No as "Invoice No"
+							Date_field as "Date"
+							Name
+							Mobile_Number as "Mobile Number"
+							Email
+							Address
+							Invoice_Amount as "Invoice Amount"
+						)
+					)
+					datablock2
+					(
+						layout type = -1
+		     			title = "Item Details"
+		     			related field = Item_Details
+						fields
+						(
+							Item_Name as "Item Name"
+							Quantity
+							Unit_Price as "Unit Price"
+							Amount
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Print 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section Employees
+	{
+		icon = "users-single-04"
+		form Employee
+		{
+			success message = "Employee Added Successfully"
+			field alignment = left
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			UniqueId
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			customize
+			(
+				icon = "business-business-contact-89"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		default list All_Employees
+		{
+			displayName = "All Employees"
+			show all rows from Employee    
+			(
+				UniqueId
+				Auto_Number as "Auto Number"
+			)
+			options
+			(
+				icon = "users-single-04"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							UniqueId
+							Auto_Number as "Auto Number"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							UniqueId
+							Auto_Number as "Auto Number"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section New_Patients
+	{
+		displayname= "New Patients"
+		icon = "users-2-child"
+		form New_Patient
+		{
+			displayname = "New Patient"
+			success message = "New Patient Added Successfully"
+			field alignment = left
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Centre_Name
+			(
+				type = picklist
+				displayname = "Centre Name"
+				maxchar = 100
+				values = {""}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Centre_Code
+			(
+    			type = text
+				displayname = "Centre Code"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			UCID_No
+			(
+    			type = text
+				displayname = "UCID No:"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Patient_s_First_Name
+			(
+    			type = text
+				displayname = "Patient's First Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Gender
+			(
+				type = picklist
+				maxchar = 100
+				values = {"Male","Female"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Email
+			(
+    			type = email
+				maxchar = 80
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Date_field
+			(
+    			type = date
+				displayname = "Date"
+				initial value = "${zoho.currentdate}"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Age
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Mobile_No
+			(
+    			type = phonenumber
+				displayname = "Mobile No"
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Invoice_No
+			(
+    			type = text
+				displayname = "Invoice No"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Therapy_Particulars
+			(
+				type = list	
+				displayname = "Therapy Particulars"
+				values = {"","JOGO New - PSYCHOLOGY PACKAGE - A (12 SESSIONS)","JOGO New - PSYCHOLOGY EVALUATION (ASSESSMENT / CONSULTATION)","JOGO New - PSYCHOLOGY SINGLE THERAPY SESSION"}
+				height = 60px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Therapy_Particular
+			(
+    			type = text
+				displayname = "Therapy Particular"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Mode_of_Payment
+			(
+				type = picklist
+				displayname = "Mode of Payment"
+				maxchar = 100
+				values = {"Cash","Pre-paid package"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Amount_Rs1
+			(
+				type = number
+				displayname = "Net Amount (₹)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Amount_Paid
+			(
+				type = number
+				displayname = "Amount Paid(₹)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			customize
+			(
+				icon = "users-2-child"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		default list All_New_Patients
+		{
+			displayName = "All New Patients"
+			show all rows from New_Patient    
+			(
+				UCID_No as "UCID No:"
+				Patient_s_First_Name as "Patient's First Name"
+				Gender
+				Age
+				Mobile_No as "Mobile No"
+				(
+					displayformat = plainnumber 
+					linktodial = enable
+				)
+				Invoice_No as "Invoice No"
+				Therapy_Particular as "Therapy Particular"
+				Mode_of_Payment as "Mode of Payment"
+				Amount_Paid as "Amount Paid(₹)"
+				Email
+				Date_field as "Date"
+				Therapy_Particulars as "Therapy Particulars"
+				Amount_Rs1 as "Net Amount (₹)"
+				Centre_Name as "Centre Name"
+				Centre_Code as "Centre Code"
+			)
+			options
+			(
+				icon = "travel-world"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							UCID_No as "UCID No:"
+							Patient_s_First_Name as "Patient's First Name"
+							Gender
+							Age
+							Mobile_No as "Mobile No"
+							Invoice_No as "Invoice No"
+							Mode_of_Payment as "Mode of Payment"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							UCID_No as "UCID No:"
+							Patient_s_First_Name as "Patient's First Name"
+							Gender
+							Age
+							Mobile_No as "Mobile No"
+							Invoice_No as "Invoice No"
+							Therapy_Particular as "Therapy Particular"
+							Mode_of_Payment as "Mode of Payment"
+							Amount_Paid as "Amount Paid(₹)"
+							Email
+							Date_field as "Date"
+							Therapy_Particulars as "Therapy Particulars"
+							Amount_Rs1 as "Net Amount (₹)"
+							Centre_Name as "Centre Name"
+							Centre_Code as "Centre Code"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section Codes
+	{
+		icon = "design-code"
+		form code
+		{
+			success message = "Code Added Successfully"
+			field alignment = left
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Particulars
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			No_of_Session
+			(
+    			type = text
+				displayname = "No of Session"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Validity
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Gross_Tariff
+			(
+				type = number
+				displayname = "Gross Tariff"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Discount
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Net_Tariff
+			(
+				type = number
+				displayname = "Net Tariff"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Procedure_Code
+			(
+    			type = text
+				displayname = "Procedure Code"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			customize
+			(
+				icon = "design-code"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		default list All_Codes
+		{
+			displayName = "All Codes"
+			show all rows from code    
+			(
+				Particulars
+				No_of_Session as "No of Session"
+				Validity
+				Gross_Tariff as "Gross Tariff"
+				Discount
+				Net_Tariff as "Net Tariff"
+				Procedure_Code as "Procedure Code"
+			)
+			options
+			(
+				icon = "travel-world"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Particulars
+							No_of_Session as "No of Session"
+							Validity
+							Gross_Tariff as "Gross Tariff"
+							Discount
+							Net_Tariff as "Net Tariff"
+							Procedure_Code as "Procedure Code"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Particulars
+							No_of_Session as "No of Session"
+							Validity
+							Gross_Tariff as "Gross Tariff"
+							Discount
+							Net_Tariff as "Net Tariff"
+							Procedure_Code as "Procedure Code"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section Centres
+	{
+		icon = "travel-church"
+		form Centre_Form
+		{
+			displayname = "Centre Form"
+			success message = "Centre Added Successfully"
+			field alignment = left
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Centre_Name
+			(
+    			type = text
+				displayname = "Centre Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Centre_Code
+			(
+    			type = text
+				displayname = "Centre Code"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			customize
+			(
+				icon = "design-2-form"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		default list All_Centres
+		{
+			displayName = "All Centres"
+			show all rows from Centre_Form    
+			(
+				Centre_Name as "Centre Name"
+				Centre_Code as "Centre Code"
+			)
+			options
+			(
+				icon = "travel-world"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Centre_Name as "Centre Name"
+							Centre_Code as "Centre Code"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Centre_Name as "Centre Name"
+							Centre_Code as "Centre Code"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section Demos
+	{
+		icon = "media-2-guitar"
+		form Demo
+		{
+			success message = "Demo Added Successfully"
+			field alignment = left
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Name
+			(
+    			type = name
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+	     			 visibility = false
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Email
+			(
+    			type = email
+				maxchar = 80
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Phone_Number
+			(
+    			type = phonenumber
+				displayname = "Phone"
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Leave_Date
+			(
+    			type = date
+				displayname = "Leave Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Reason
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			customize
+			(
+				icon = "media-2-remix"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		default list All_Demos
+		{
+			displayName = "All Demos"
+			show all rows from Demo    
+			(
+				Name 
+	 			(
+	      			displayformat = [first_name+""+prefix+""+last_name+""+suffix]
+	 			)
+				Email
+				Phone_Number as "Phone"
+				(
+					displayformat = plainnumber 
+					linktodial = enable
+				)
+				Leave_Date as "Leave Date"
+				Reason
+			)
+			options
+			(
+				icon = "travel-world"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Name
+							Email
+							Phone_Number as "Phone"
+							Leave_Date as "Leave Date"
+							Reason
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Name
+							Email
+							Phone_Number as "Phone"
+							Leave_Date as "Leave Date"
+							Reason
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section New_Section
+	{
+		displayname= "New Section"
+	}
+	section New_page
+	{
+		displayname= "New"
+		icon = "users-2-child"
+		form New_form
+		{
+			displayname = "New"
+			success message = "Data Added Successfully!"
+			field alignment = left
+	
+			customize
+			(
+				icon = "users-2-child"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		default list New_form_Report
+		{
+			displayName = "New Report"
+			show all rows from New_form    
+			options
+			(
+				icon = "users-2-child"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+
+
+
+
+
+
+		workflow
+		{
+		form
+		{
+			Run_Scripts_While_Adding_1 as "Run Scripts - While Adding a Record"
+			{
+				type =  form
+				form = New_Appointment
+				record event = on add
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											//validate given appointment booking time to be a future date
+										if(input.Appointment_Date_Time <= zoho.currenttime || input.Alternative_Date_Time <= zoho.currenttime)
+										{
+											alert "Please enter a valid future date!";
+											cancel submit;
+										}
+						)
+					}
+				}
+
+			}
+			Notification_Mail_on_Stat as "Notification Mail on Status Updation"
+			{
+				type =  form
+				form = New_Appointment
+				record event = on edit
+
+				on update of Status
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											//Send confirmation mail to user
+										if(input.Status == "Confirmed")
+										{
+											sendmail
+											[
+												from :zoho.adminuserid
+												to :input.Email_Id
+												subject :"Appointment Confirmation Mail"
+												message :("Greetings,<div>&nbsp;</div><div>&nbsp; Your appointment has been successfully confirmed.</div><div><br></div><div>&nbsp; Please find the details here,</div><div><br></div><div>&nbsp; &nbsp;Name :" + input.Name) + "</div><div><br></div><div>&nbsp; &nbsp;Appointment Time :" + input.Appointment_Date_Time + "</div><div><br></div><div>&nbsp; &nbsp;Mobile Number : " + input.Mobile_Number + "</div><div><br></div><div>&nbsp; &nbsp;Email : " + input.Email_Id + "</div><div><br></div><div>&nbsp; &nbsp;Preferred Contact Method : " + input.Preferred + "</div><div>&nbsp;&nbsp;</div><div><br></div><div>Thanks and Regards,</div><div>" + zoho.adminuser + "</div>"
+											]
+										}
+										//Send cancellation mail to user
+										else if(input.Status == "Cancelled")
+										{
+											sendmail
+											[
+												from :zoho.adminuserid
+												to :input.Email_Id
+												subject :"Appointment Cancellation Mail"
+												message :("<div><span>Hi,</span></div><div><br></div><span>We regret to inform you that we have cancelled your appointment.&nbsp;</span><div><br><div><span>Please find your appointment details here,</span></div><div><div><br></div><div>&nbsp; &nbsp;Name :" + input.Name) + "</div><div><br></div><div>&nbsp; &nbsp;Appointment Time :" + input.Appointment_Date_Time + "</div><div><br></div><div>&nbsp; &nbsp;Mobile Number : " + input.Mobile_Number + "</div><div><br></div><div>&nbsp; &nbsp;Email : " + input.Email_Id + "</div><div><br></div><div>&nbsp; &nbsp;Preferred Contact Method : " + input.Preferred + "</div><div>&nbsp;&nbsp;</div></div><div><span>Sorry for the inconvenience caused.</span><span><br><br></span><div><span>Regards,</span></div><div><span>" + zoho.adminuser + "</span></div></div></div>"
+											]
+										}
+						)
+					}
+				}
+
+			}
+			Run_Scripts_On_Always1 as "Run Scripts - On Always"
+			{
+				type =  form
+				form = New_Appointment
+				record event = on add or edit
+
+				field rules
+				{
+					actions 
+					{
+						hide Status;
+					}
+				}
+
+			}
+			Run_Scripts_On_Always2 as "Run Scripts - On Always"
+			{
+				type =  form
+				form = New_Appointment
+				record event = on add or edit
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											//Validate given age value
+										if(input.Age <= 0)
+										{
+											alert "Please enter a valid age!";
+											cancel submit;
+										}
+						)
+					}
+				}
+
+			}
+			Run_Scripts_On_Always3 as "Run Scripts - On Always"
+			{
+				type =  form
+				form = New_Appointment
+				record event = on add or edit
+
+				on user input of Alternative_Date_Time
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											//validate given appointment booking time to be a future date
+										if(input.Alternative_Date_Time <= zoho.currenttime)
+										{
+											alert "Please enter a valid future date!";
+										}
+						)
+					}
+				}
+
+			}
+			Run_Scripts_On_Always4 as "Run Scripts - On Always"
+			{
+				type =  form
+				form = New_Appointment
+				record event = on add or edit
+
+				on user input of Age
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											//Validate given age value
+										if(input.Age <= 0)
+										{
+											alert "Please enter a valid age!";
+										}
+						)
+					}
+				}
+
+			}
+			Run_Scripts_On_Always5 as "Run Scripts - On Always"
+			{
+				type =  form
+				form = New_Appointment
+				record event = on add or edit
+
+				on user input of Appointment_Date_Time
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											//validate given appointment booking time to be a future date
+										if(input.Appointment_Date_Time <= zoho.currenttime)
+										{
+											alert "Please enter a valid future date!";
+										}
+						)
+					}
+				}
+
+			}
+			Send_Email_Form_Propertie as "Send Email - Form Properties"
+			{
+				type =  presuccess
+				form = New_Appointment
+				on start
+				{
+					actions 
+					{
+						sendmail
+						(
+							from : "zoho.adminuserid"
+							to : "zoho.adminuserid"
+							subject : "Learning : New entry added"
+							message : "Hello,<br/><br/>A new entry added in 'New Appointment' form of 'Learning' application.<br/>"
+							attachments : template : _default as inline
+						)
+					}
+				}
+			}
+			Run_Scripts_While_Adding_ as "Run Scripts - While Adding a Record"
+			{
+				type =  form
+				form = Pay_an_Invoice
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											input.Date_field = zoho.currentdate;
+						)
+					}
+				}
+
+			}
+			Run_Scripts_While_Adding_2 as "Run Scripts - While Adding a Record"
+			{
+				type =  form
+				form = Pay_an_Invoice
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											//Send invoice in email
+										msg = "<table cellpadding=\"5\"  style=\"border-collapse: collapse;width:96%;\"><tr style='background:#ddd;'><th>Product Name</th><th>Quantity</th><th>Unit Price</th><th>Amount</th></tr>";
+										for each  item in Item_Details
+										{
+											msg = msg + "<tr><td align=\"center\">" + item.Item_Name + "</td><td align=\"center\">" + item.Quantity + "</td><td align=\"center\">" + item.Unit_Price + "</td><td align=\"center\">" + item.Amount + "</td></tr>";
+										}
+										msg = msg + "</table>";
+										sendmail
+										[
+											from :zoho.adminuserid
+											to :input.Email
+											subject :"Your Invoice ('" + input.Invoice_No + "') is generated!\n"
+											message :"<p class=\"p1\" style=\"text-align: right;font-size:15px;\">Invoice Details</p><p class=\"p1\" style=\"text-align: right;font-size:14px\"><b>Invoice-id #" + input.Invoice_No + "</b></p>\n<p class=\"p3\"><font size=\"3\">Hello&nbsp;,</font></p><p class=\"p3\"><font size=\"3\"><br>Thanks for purchasing here is your invoice details.</font></p><blockquote style=\"border-top: 3px solid black; padding: 7px; background-color: rgb(245, 245, 245);\"><div><font size=\"3\">&nbsp;Item Details,</font></div><div><font size=\"3\"><br><table cellpadding=\"2\" cellspacing=\"2\" border=\"0\" style=\"width: 100%; font-size: 10pt;\"><tbody><tr><td>Order Date -&nbsp;<p class=\"p1\" style='font-weight:bold;'>" + input.Date_field + "</p></td><td><p class=\"p1\" style=\"text-align: right;font-size:13px\">Shipping Address</p><p class=\"p1\" style=\"text-align: right;\"></p><p class=\"p1\" style=\"text-align: right; white-space: pre;font-size:15px;font-weight:bolder;\">input.Address </p></td></tr><tr><td><br></td><td><br></td></tr></tbody></table></div><div style='width:100%;'>" + msg + "</div></blockquote></div><div style=\"float:right; padding: 5%;    box-sizing: border-box;   \"> <font style='font-weight:bold;'> Total Invoice Amount: </font><span style=\" border: 1.0px solid black;    text-align: -webkit-center;    padding: 10px; margin:50px; \"> $ " + input.Invoice_Amount + "</span></div></font><font size=\"3\"><br></font><p></p>"
+										]
+						)
+					}
+				}
+
+			}
+			Run_Scripts_On_Always as "Run Scripts - On Always"
+			{
+				type =  form
+				form = Pay_an_Invoice
+				record event = on add or edit
+
+				field rules
+				{
+					actions 
+					{
+						disable Invoice_Amount;
+					}
+				}
+
+			}
+			Run_Scripts_On_Always6 as "Run Scripts - On Always"
+			{
+				type =  form
+				form = Pay_an_Invoice
+				record event = on add or edit
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											disable Item_Details.Amount;
+						)
+					}
+				}
+
+			}
+			Run_Scripts_On_Always7 as "Run Scripts - On Always"
+			{
+				type =  form
+				form = Pay_an_Invoice
+				record event = on add or edit
+
+				on user input of Item_Details.Quantity
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											//Calculate current product amount and total invoice amount
+										if(row.Unit_Price != null && row.Quantity != null)
+										{
+											row.Amount=row.Unit_Price * row.Quantity;
+											input.Invoice_Amount = 0.0;
+											for each  item in Item_Details
+											{
+												if(item.Amount != null)
+												{
+													input.Invoice_Amount = input.Invoice_Amount + item.Amount;
+												}
+											}
+										}
+						)
+					}
+				}
+
+			}
+			Run_Scripts_On_Always8 as "Run Scripts - On Always"
+			{
+				type =  form
+				form = Pay_an_Invoice
+				record event = on add or edit
+
+				on user input of Item_Details.Unit_Price
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											//Calculate current product amount and total invoice amount
+										if(row.Unit_Price != null && row.Quantity != null)
+										{
+											row.Amount=row.Unit_Price * row.Quantity;
+											input.Invoice_Amount = 0.0;
+											for each  item in Item_Details
+											{
+												if(item.Amount != null)
+												{
+													input.Invoice_Amount = input.Invoice_Amount + item.Amount;
+												}
+											}
+										}
+						)
+					}
+				}
+
+			}
+			Run_Scripts_On_Always9 as "Run Scripts - On Always"
+			{
+				type =  form
+				form = Pay_an_Invoice
+				record event = on add or edit
+
+				on delete row of Item_Details
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											//Recalculate Invoice amount on removal of a product from invoice items
+										input.Invoice_Amount = input.Invoice_Amount - row.Amount;
+						)
+					}
+				}
+
+			}
+			Send_Email_Form_Propertie1 as "Send Email - Form Properties"
+			{
+				type =  presuccess
+				form = Pay_an_Invoice
+				on start
+				{
+					actions 
+					{
+						sendmail
+						(
+							from : "zoho.adminuserid"
+							to : Email
+							subject : "Learning : New entry added"
+							message : "<div>Hello,<br><br>A new entry added in 'Pay_an_Invoice' form of Learning application.<br></div><br><br>"
+						)
+					}
+				}
+			}
+			Genearate_Unique_Id as "Genearate Unique Id"
+			{
+				type =  form
+				form = Employee
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											count = Employee[ID != null].maximum(Auto_Number);
+										if(count != null)
+										{
+											info count;
+											input.UniqueId = count.toString();
+										}
+										else
+										{
+											input.UniqueId = "0";
+										}
+						)
+					}
+				}
+
+			}
+			invoice as "invoice"
+			{
+				type =  form
+				form = New_Patient
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											//Send invoice in email
+										msg = "<table cellpadding=\"5\"  style=\"border-collapse: collapse;width:96%;\"><tr style='background:#ddd;'><th> Description </th><th>Mode of Payment</th><th>Unit Amount Payable(₹)</th>";
+										msg = msg + "<tr><td align=\"center\">" + input.Therapy_Particular + "</td><td align=\"center\">" + input.Mode_of_Payment + "</td><td align=\"center\">" + input.Amount_Paid + "</td></tr>";
+										msg = msg + "</table>";
+										sendmail
+										[
+											from :zoho.adminuserid
+											to :input.Email
+											subject :"Your Invoice ('" + input.Invoice_No + "') is generated!\n"
+											message :"<p class=\"p1\" style=\"text-align: right;font-size:15px;\">Invoice Details</p><p class=\"p1\" style=\"text-align: right;font-size:14px\"><b>Invoice-id #" + input.Invoice_No + "</b></p><p class=\"p3\"><font size=\"3\">Hello&nbsp;,</font></p><p class=\"p3\"><font size=\"3\"><br>Thanks for purchasing here is your invoice details.</font></p><blockquote style=\"border-top: 3px solid black; padding: 7px; background-color: rgb(245, 245, 245);\"><div><font size=\"3\">&nbsp;Item Details,</font></div><div><font size=\"3\"><br><table cellpadding=\"2\" cellspacing=\"2\" border=\"0\" style=\"width: 100%; font-size: 10pt;\"><tbody><tr><td>UCID NO: <p class=\"p1\" style='font-weight:bold;'>" + input.UCID_No + "</p></td><td>Patient Name: <p class=\"p1\" style='font-weight:bold;'>" + input.Patient_s_First_Name + "</p></td><td>Age: <p class=\"p1\" style='font-weight:bold;'>" + input.Age + "</p></td><td>Contact: <p class=\"p1\" style='font-weight:bold;'>" + input.Mobile_No + "</p></td></tr><tr><td colspan=\"4\"><br></td></tr></tbody></table></font></div><div style='width:100%;'>" + msg + "</div></blockquote></div><div style=\"float:right; padding: 5%; box-sizing: border-box;\"><font style='font-weight:bold;'> Total Invoice Amount: </font><span style=\" border: 1.0px solid black; text-align: -webkit-center; padding: 10px; margin:50px; \"> $ " + input.Amount_Paid + "</span></div><font size=\"3\"><br></font><p></p>"
+										]
+						)
+					}
+				}
+
+			}
+			fetch as "fetch"
+			{
+				type =  form
+				form = New_Patient
+				record event = on add
+
+				on user input of Therapy_Particulars
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											procedural_record = code[Particulars in input.Therapy_Particulars];
+										demo = List();
+										net_amount = 0;
+										for each  procedure_data in procedural_record
+										{
+											demo.add(procedure_data.Procedure_Code);
+											net_amount = net_amount + procedure_data.Net_Tariff;
+										}
+										Procedure_Code = demo;
+										Planned_Sessions = procedural_record.No_of_Session;
+										input.Amount_Rs1 = net_amount;
+										input.Therapy_Particular = input.Therapy_Particulars;
+						)
+					}
+				}
+
+			}
+			populate as "populate"
+			{
+				type =  form
+				form = New_Patient
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											Available_ProceduralCode = List();
+										Available_centres = List();
+										if(Available_ProceduralCode.isEmpty())
+										{
+											procedural_codes_sources = code[Particulars != null].Particulars.getAll();
+											for each  elements in procedural_codes_sources
+											{
+												Available_ProceduralCode.add(elements);
+											}
+											if(!input.Therapy_Particulars.isEmpty())
+											{
+												for each  elements in Available_ProceduralCode
+												{
+													if(elements == input.Therapy_Particulars)
+													{
+														input.Therapy_Particulars:ui.add(Available_ProceduralCode);
+														input.Therapy_Particulars = elements;
+													}
+												}
+											}
+											else
+											{
+												input.Therapy_Particulars:ui.add(Available_ProceduralCode);
+											}
+										}
+										if(Available_centres.isEmpty())
+										{
+											centres = Centre_Form[Centre_Name != null].Centre_Name.getAll();
+											for each  elements in centres
+											{
+												Available_centres.add(elements);
+											}
+											if(!input.Centre_Name.isEmpty())
+											{
+												for each  elements in Available_centres
+												{
+													if(elements == input.Centre_Name)
+													{
+														input.Centre_Name:ui.add(Available_centres);
+														input.Centre_Name = elements;
+													}
+												}
+											}
+											else
+											{
+												input.Centre_Name:ui.add(Available_centres);
+											}
+										}
+						)
+					}
+				}
+
+			}
+			center_name_by_code as "center name by code"
+			{
+				type =  form
+				form = New_Patient
+				record event = on add or edit
+
+				on user input of Centre_Name
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											Centres = Centre_Form[Centre_Name == input.Centre_Name];
+										for each  Centre in Centres
+										{
+											input.Centre_Code = Centre.Centre_Code;
+											break;
+										}
+						)
+					}
+				}
+
+			}
+			smssssss as "smssssss"
+			{
+				type =  form
+				form = New_Patient
+				record event = on add
+
+				on success
+				{
+				}
+
+			}
+			Disable as "Disable"
+			{
+				type =  form
+				form = Demo
+				record event = on add or edit
+					status = inactive
+
+				on load
+				{
+				}
+
+			}
+		}
+
+
+
+		approval
+		{
+			Leave_Approval as "Leave Approval"
+			{
+				type =  approval
+				form = Demo
+				display fields = [Name,Email,Phone_Number,Leave_Date,Reason]
+				on start
+				{
+				}
+				on level 1
+				{
+					on approve 
+					{
+						actions 
+						{
+							sendmail
+							(
+								from : zoho.loginuserid
+								to : approver.submitter,Email
+								subject : "Approval Request"
+								message : "<div>Your request has been approved.<br></div>"
+							)
+						}
+					}
+					on reject
+					{
+
+						actions 
+						{
+							sendmail
+							(
+								from : zoho.loginuserid
+								to : approver.submitter
+								subject : "Approval Request"
+								message : "Your request has been rejected."
+							)
+						}
+					}
+				}
+			}
+		}
+
+
+	}
+	share_settings
+	{
+			"Read"
+			{
+				name = "Read"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have read permission for all components\n"
+			}
+			"Write"
+			{
+				name = "Write"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have write permission for all components\n"
+			}
+			"Administrator"
+			{
+				name = "Administrator"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have all the permissions.\n"
+			}
+			"Customer"
+			{
+				name = "Customer"
+				type = Customer_Portal
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This is the default profile having only add and view permission.\n"
+			}
+			roles
+			{
+				"CEO"
+				{
+					description = "User belonging to this role can access data of all other users."
+				}
+			}
+	}
+
+	customize
+	{
+		
+		layout = "tab"
+		color = "black"
+		base theme = "professional"
+		new theme = 1
+		icons = true
+		icons style = outline
+		font = "lato"
+		color options
+    	{
+        color = "1"
+    	}
+    	logo
+    	{
+        	preference = "company_logo"
+        	placement = "left"
+    	}
+	}
+
+
+	phone
+	{
+		customize
+		{
+        	layout = slidingpane
+		 	icons style = outline
+        	font = "default"
+            style = "3"
+        	color options
+        	{
+             	color = green
+         	}
+         	logo
+         	{
+             	preference = "company_logo"
+         	}
+		}
+	}
+	tablet
+	{
+		customize
+		{
+        	layout = slidingpane
+		 	icons style = outline
+        	font = "default"
+            style = "3"
+        	color options
+        	{
+             	color = green
+         	}
+         	logo
+         	{
+             	preference = "company_logo"
+         	}
+		}
+	}
+	
+}
